@@ -1,75 +1,52 @@
 %{
+    #include <iostream>
+    #include "scanner.h"
+    #include "nodo.h"
 
-/********************** 
- * Declaraciones en C *
- **********************/
-  #include <iostream>
-  #include "scanner.h"
-  //#include "nodo.h"
+    extern char *yytext;
+    extern Nodo *raiz;
 
-    extern int yylex(void);
-    //extern Nodo *raiz;
+
+    using namespace std;
 
     int yyerror(const char* mens){
-        std::cout<<mens<<std::endl;
-        return 0;
+    std::cout<<mens<<std::endl;
+    return 0;
     }
 
 %}
 
-/*************************
-  Declaraciones de Bison *
- *************************/
 
 
-%union
-{
-        char text[400];
-        //class Nodo *nodito;
+%union {
+    char text[400];
+    class Nodo *NoneTerminal;
 }
 
 
-%start inicio;
 
 
-%token <text> NUMERO
-%token <text>PARA
-%token <text>PARC
-%token <text>SUMA
-%token <text>RESTA
-%token <text>MULTPLICAR
-%token <text>DIVIDIR
+%token <text> numero c_path igual  mkdisk c_size  unit 
 
 
+/*None Terminals*/
+%type <NoneTerminal> INICIO;
+%type <NoneTerminal> COMANDO MKDISK PAR_MKDISK;
 
 
-
-/*Definir precedencia de operaciones*/
-%left SUMA RESTA
-%left MULTPLICAR DIVIDIR
-
-
-
-
-
-
-
+%start INICIO;
 %%
-/***********************
- * Reglas Gramaticales *
- ***********************/
+INICIO: COMANDO { raiz=$$;};
 
-inicio: exp { };
+COMANDO:            mkdisk MKDISK        {$$ = new Nodo("MKDISK",""); $$->add(*$2); }
+                    ;
 
+MKDISK:             MKDISK PAR_MKDISK {$$=$1; $$->add(*$2);}
+                    |   PAR_MKDISK { $$= new Nodo("parametros","");  $$->add(*$1);}
+;
 
+PAR_MKDISK:         c_size igual numero {$$ = new Nodo("size",$3);}
+               
+                    ;
+%% 
 
-exp : exp SUMA exp { };
-    | exp RESTA exp { };
-    | exp MULTPLICAR exp { };
-    | exp DIVIDIR exp { };
-    | NUMERO {  };
-
-%%
-/**********************
- * Codigo C Adicional *
- **********************/

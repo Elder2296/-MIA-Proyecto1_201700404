@@ -1,38 +1,44 @@
 %{
-	#include <iostream>
-	#include "parser.h"	
-    //Nodo *raiz;
-	
+    #include <iostream>
+    #include "parser.h"
+
+
+    Nodo *raiz;
 %}
 
 %option case-insensitive
 %option noyywrap
 
-
-DIGITO [0-9]
-NUMERO {DIGITO}
-
-
-%%
+DIGITO    [0-9]
+LETRA     [a-zA-ZñÑ]
+DIAG      ["/"]
 
 
- /*********************
-  * Reglas y Acciones *
- **********************/
+GUIONES   [-_]
 
-{NUMERO} {strcpy(yylval.text, yytext); return NUMERO;}
-"mkdisk" {printf("reconoce parcentesis abre"); return MKDISK;}
+IDENTIFICADOR {LETRA}({LETRA}|{DIGITO}|{GUIONES})*
+
+CADENA    "\""{IDENTIFICADOR}"\""
+CAADENA   "\""[^"\""]*"\""
+ENTERO {DIGITO}+
+
+DIREC   {DIAG}{CADENA}
+DELIMITADOR [\t\n\f" "]
+
+/* Rule Section */
+%% 
 
 
+"mkdisk"        {printf("reconoce:mkdisk %s\n",yytext); strcpy(yylval.text, yytext); return mkdisk;}
+"-size"          {return c_size;}
+"-unit"          {return unit;}
+"-path"         {return c_path;}
 
-"(" 	{ return(PARA);}
-")" 	{printf("reconoce parcentesis cierra"); return(PARC);}
-"+" 	{printf("reconoce parcentesis suma"); return(SUMA);}
-"-" 	{printf("reconoce parcentesis resta"); return(RESTA);}
-"*" 	{printf("reconoce parcentesis multi"); return(MULTPLICAR);}
-"/" 	{printf("reconoce parcentesis diagonal"); return(DIVIDIR);}
-[\t\r\f] {}
-" "		{}
- 
-.            {std::cout <<yytext <<" Error Lexico" << std::endl;}
-%%
+{ENTERO}        {strcpy(yylval.text, yytext); printf("Numero entero: %s\n",yytext);  return numero; }
+
+"="                 {return igual;}
+{DELIMITADOR} {}
+.        {printf("Error Lexico");}
+  
+%% 
+

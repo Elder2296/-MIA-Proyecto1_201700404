@@ -17,7 +17,7 @@ public:
     int columna;
     int tipo_;
     string cadenaDot;
-    list<Nodo> hijos;
+    std::list<Nodo> hijos;
     int getTipo();
     void add(Nodo n);
 };

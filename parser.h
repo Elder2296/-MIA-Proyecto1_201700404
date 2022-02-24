@@ -49,13 +49,12 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    NUMERO = 258,
-    PARA = 259,
-    PARC = 260,
-    SUMA = 261,
-    RESTA = 262,
-    MULTPLICAR = 263,
-    DIVIDIR = 264
+    numero = 258,
+    c_path = 259,
+    igual = 260,
+    mkdisk = 261,
+    c_size = 262,
+    unit = 263
   };
 #endif
 
@@ -63,12 +62,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 26 "sintactico.y"
+#line 21 "sintactico.y"
 
-        char text[400];
-        //class Nodo *nodito;
+    char text[400];
+    class Nodo *NoneTerminal;
 
-#line 72 "parser.h"
+#line 71 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
