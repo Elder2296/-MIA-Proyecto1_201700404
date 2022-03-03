@@ -54,7 +54,11 @@ extern int yydebug;
     igual = 260,
     mkdisk = 261,
     c_size = 262,
-    unit = 263
+    c_unit = 263,
+    cadena = 264,
+    ruta = 265,
+    guion = 266,
+    letra = 267
   };
 #endif
 
@@ -67,7 +71,7 @@ union YYSTYPE
     char text[400];
     class Nodo *NoneTerminal;
 
-#line 71 "parser.h"
+#line 75 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -9,36 +9,45 @@
 %option case-insensitive
 %option noyywrap
 
-DIGITO    [0-9]
-LETRA     [a-zA-ZñÑ]
-DIAG      ["/"]
+letra       [a-zA-ZÑñáéíóúÁÉÍÓÚ]
+numero      [0-9]+
+caracter    ({letra}|{numero})
+guion       ("-"|"–")
 
 
-GUIONES   [-_]
+id          ({letra}|{numero})({letra}|{numero}|"_")*
+idpath      {id}(" "{id})*
+cadena      "\""{id}"\""
+extension   "."{id}
+path        "\""?("/"{idpath})*("/"{idpath}{extension}?)"\""?
 
-IDENTIFICADOR {LETRA}({LETRA}|{DIGITO}|{GUIONES})*
 
-CADENA    "\""{IDENTIFICADOR}"\""
-CAADENA   "\""[^"\""]*"\""
-ENTERO {DIGITO}+
 
-DIREC   {DIAG}{CADENA}
-DELIMITADOR [\t\n\f" "]
+
+
+
 
 /* Rule Section */
 %% 
 
 
-"mkdisk"        {printf("reconoce:mkdisk %s\n",yytext); strcpy(yylval.text, yytext); return mkdisk;}
-"-size"          {return c_size;}
-"-unit"          {return unit;}
-"-path"         {return c_path;}
+"mkdisk"            {printf("reconoce:mkdisk %s\n",yytext); strcpy(yylval.text, yytext); return mkdisk;}
+"size"             { strcpy(yylval.text, yytext); return c_size;}
+"unit"             {return c_unit;}
+"path"             {return c_path;}
 
-{ENTERO}        {strcpy(yylval.text, yytext); printf("Numero entero: %s\n",yytext);  return numero; }
+{numero}            {strcpy(yylval.text, yytext); printf("Numero entero: %s\n",yytext);  return numero; }
 
 "="                 {return igual;}
-{DELIMITADOR} {}
-.        {printf("Error Lexico");}
+{path}              {strcpy(yylval.text, yytext); printf("La ruta es: %s\n",yytext); return ruta;}
+{letra}             {strcpy(yylval.text, yytext); return letra;}
+{cadena}            {strcpy(yylval.text, yytext); return cadena;}
+{guion}             {strcpy(yylval.text, yytext); return guion;}
+
+[[:blank:]] {}
+
+    .   {std::cout <<"Error De Escritura(Lexico)! [: "<<yytext <<" :]" << std::endl;}
+
   
 %% 
 

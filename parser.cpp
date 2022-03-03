@@ -137,7 +137,11 @@ extern int yydebug;
     igual = 260,
     mkdisk = 261,
     c_size = 262,
-    unit = 263
+    c_unit = 263,
+    cadena = 264,
+    ruta = 265,
+    guion = 266,
+    letra = 267
   };
 #endif
 
@@ -150,7 +154,7 @@ union YYSTYPE
     char text[400];
     class Nodo *NoneTerminal;
 
-#line 154 "parser.cpp"
+#line 158 "parser.cpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -469,19 +473,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   12
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  9
+#define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  6
+#define YYNRULES  8
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  11
+#define YYNSTATES  18
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   263
+#define YYMAXUTOK   267
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -519,14 +523,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8
+       5,     6,     7,     8,     9,    10,    11,    12
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    39,    39,    41,    44,    45,    48
+       0,    39,    39,    41,    44,    45,    48,    49,    50
 };
 #endif
 
@@ -536,7 +540,8 @@ static const yytype_int8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "numero", "c_path", "igual", "mkdisk",
-  "c_size", "unit", "$accept", "INICIO", "COMANDO", "MKDISK", "PAR_MKDISK", YY_NULLPTR
+  "c_size", "c_unit", "cadena", "ruta", "guion", "letra", "$accept",
+  "INICIO", "COMANDO", "MKDISK", "PAR_MKDISK", YY_NULLPTR
 };
 #endif
 
@@ -545,11 +550,12 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,   266,   267
 };
 # endif
 
-#define YYPACT_NINF (-7)
+#define YYPACT_NINF (-10)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -563,8 +569,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -6,    -5,     1,    -7,    -2,    -5,    -7,    -7,     2,    -7,
-      -7
+      -5,    -9,     5,   -10,    -4,    -9,   -10,   -10,     1,     2,
+       3,   -10,    -1,     7,     0,   -10,   -10,   -10
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -572,14 +578,14 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     0,     3,     5,     1,     0,     4,
-       6
+       0,     0,     0,     2,     0,     3,     5,     1,     0,     0,
+       0,     4,     0,     0,     0,     8,     6,     7
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -7,    -7,    -7,    -7,    -1
+     -10,   -10,   -10,   -10,     6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -593,32 +599,34 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     7,     4,     8,     9,    10
+       8,     1,     4,     9,    10,     7,    12,    13,    14,    15,
+      16,    11,    17
 };
 
 static const yytype_int8 yycheck[] =
 {
-       6,     0,     7,     5,     5,     3
+       4,     6,    11,     7,     8,     0,     5,     5,     5,    10,
+       3,     5,    12
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     6,    10,    11,     7,    12,    13,     0,     5,    13,
-       3
+       0,     6,    14,    15,    11,    16,    17,     0,     4,     7,
+       8,    17,     5,     5,     5,    10,     3,    12
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     9,    10,    11,    12,    12,    13
+       0,    13,    14,    15,    16,    16,    17,    17,    17
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     2,     2,     1,     3
+       0,     2,     1,     2,     2,     1,     4,     4,     4
 };
 
 
@@ -1316,35 +1324,47 @@ yyreduce:
   case 2:
 #line 39 "sintactico.y"
                 { raiz=(yyval.NoneTerminal);}
-#line 1320 "parser.cpp"
+#line 1328 "parser.cpp"
     break;
 
   case 3:
 #line 41 "sintactico.y"
                                          {(yyval.NoneTerminal) = new Nodo("MKDISK",""); (yyval.NoneTerminal)->add(*(yyvsp[0].NoneTerminal)); }
-#line 1326 "parser.cpp"
+#line 1334 "parser.cpp"
     break;
 
   case 4:
 #line 44 "sintactico.y"
                                       {(yyval.NoneTerminal)=(yyvsp[-1].NoneTerminal); (yyval.NoneTerminal)->add(*(yyvsp[0].NoneTerminal));}
-#line 1332 "parser.cpp"
+#line 1340 "parser.cpp"
     break;
 
   case 5:
 #line 45 "sintactico.y"
                                    { (yyval.NoneTerminal)= new Nodo("parametros","");  (yyval.NoneTerminal)->add(*(yyvsp[0].NoneTerminal));}
-#line 1338 "parser.cpp"
+#line 1346 "parser.cpp"
     break;
 
   case 6:
 #line 48 "sintactico.y"
-                                        {(yyval.NoneTerminal) = new Nodo("size",(yyvsp[0].text));}
-#line 1344 "parser.cpp"
+                                              {(yyval.NoneTerminal) = new Nodo("size",(yyvsp[0].text));}
+#line 1352 "parser.cpp"
+    break;
+
+  case 7:
+#line 49 "sintactico.y"
+                                                 {(yyval.NoneTerminal) = new Nodo("unit",(yyvsp[0].text));}
+#line 1358 "parser.cpp"
+    break;
+
+  case 8:
+#line 50 "sintactico.y"
+                                              {(yyval.NoneTerminal) = new Nodo("path",(yyvsp[0].text));}
+#line 1364 "parser.cpp"
     break;
 
 
-#line 1348 "parser.cpp"
+#line 1368 "parser.cpp"
 
       default: break;
     }
@@ -1576,6 +1596,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 51 "sintactico.y"
+#line 52 "sintactico.y"
  
 

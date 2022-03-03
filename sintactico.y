@@ -26,7 +26,7 @@
 
 
 
-%token <text> numero c_path igual  mkdisk c_size  unit 
+%token <text> numero c_path igual  mkdisk c_size  c_unit  cadena ruta guion letra
 
 
 /*None Terminals*/
@@ -45,8 +45,9 @@ MKDISK:             MKDISK PAR_MKDISK {$$=$1; $$->add(*$2);}
                     |   PAR_MKDISK { $$= new Nodo("parametros","");  $$->add(*$1);}
 ;
 
-PAR_MKDISK:         c_size igual numero {$$ = new Nodo("size",$3);}
-               
+PAR_MKDISK:         guion c_size igual numero {$$ = new Nodo("size",$4);}
+                    | guion c_unit igual letra   {$$ = new Nodo("unit",$4);}
+                    | guion c_path igual ruta {$$ = new Nodo("path",$4);}
                     ;
 %% 
 
